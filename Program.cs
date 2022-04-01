@@ -37,18 +37,23 @@ namespace DiceBot
         public async Task Client_Ready()
         {
             var guild = _client.GetGuild(guildID);
-            var guildCommand = new SlashCommandBuilder();
-            guildCommand.WithName("roll");
-            guildCommand.WithDescription("Roll the die");
+            var rolld6Command = new SlashCommandBuilder();
+            rolld6Command.WithName("roll-d6");
+            rolld6Command.WithDescription("Roll the die");
 
-            var dice20 = new SlashCommandBuilder();
-            dice20.WithName("roll20");
-            dice20.WithDescription("Roll a 20 sided die");
+            var rolld20Command = new SlashCommandBuilder();
+            rolld20Command.WithName("roll-d20");
+            rolld20Command.WithDescription("Roll a 20 sided die");
+
+            var roll2d6Command = new SlashCommandBuilder();
+            roll2d6Command.WithName("roll-2d6");
+            roll2d6Command.WithDescription("Roll two six sided dice");
             
             try
             {
-                await guild.CreateApplicationCommandAsync(guildCommand.Build());
-                await guild.CreateApplicationCommandAsync(dice20.Build());
+                await guild.CreateApplicationCommandAsync(rolld6Command.Build());
+                await guild.CreateApplicationCommandAsync(rolld20Command.Build());
+                await guild.CreateApplicationCommandAsync(roll2d6Command.Build());
                 
                 // Using the ready event is a simple implementation for the sake of the example. Suitable for testing and development.
                 // For a production bot, it is recommended to only run the CreateGlobalApplicationCommandAsync() once for each command.
@@ -66,13 +71,18 @@ namespace DiceBot
         {
             switch (command.Data.Name)
             {
-                case "roll":
+                case "roll-d6":
                     int roll = rollDie(7);
                     await command.RespondAsync($"You have rolled a {roll}");
                     break;
-                case "roll20":
+                case "roll-d20":
                     int roll20 = rollDie(21);
                     await command.RespondAsync($"you have rolled a {roll20}");
+                    break;
+                case "roll-2d6":
+                    int firstDie = rollDie(7);
+                    int secondDie = rollDie(7);
+                    await command.RespondAsync($"you have rolled a {firstDie} and a {secondDie}");
                     break;
                 default:
                     await command.RespondAsync($"You have run {command.Data.Name}, which does nothing.");
