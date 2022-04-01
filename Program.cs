@@ -10,7 +10,7 @@ namespace DiceBot
     class Program
     {
         private DiscordSocketClient _client;
-        ulong guildID = ulong.Parse(Environment.GetEnvironmentVariable("guildID"));
+        readonly ulong guildID = ulong.Parse(Environment.GetEnvironmentVariable("guildID"));
 
         public static void Main(string[] args)
         {
