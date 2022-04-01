@@ -41,21 +41,15 @@ namespace DiceBot
             guildCommand.WithName("roll");
             guildCommand.WithDescription("Roll the die");
 
-            var globalCommand = new SlashCommandBuilder();
-            globalCommand.WithName("first-command");
-            globalCommand.WithDescription("This is my first global slash command");
-
             var dice20 = new SlashCommandBuilder();
             dice20.WithName("roll20");
             dice20.WithDescription("Roll a 20 sided die");
             
-
             try
             {
                 await guild.CreateApplicationCommandAsync(guildCommand.Build());
                 await guild.CreateApplicationCommandAsync(dice20.Build());
-                // With global commands we don't need the guild.
-                await _client.CreateGlobalApplicationCommandAsync(globalCommand.Build());
+                
                 // Using the ready event is a simple implementation for the sake of the example. Suitable for testing and development.
                 // For a production bot, it is recommended to only run the CreateGlobalApplicationCommandAsync() once for each command.
             }
@@ -81,7 +75,7 @@ namespace DiceBot
                     await command.RespondAsync($"you have rolled a {roll20}");
                     break;
                 default:
-                    await command.RespondAsync($"You have run {command.Data.Name}");
+                    await command.RespondAsync($"You have run {command.Data.Name}, which does nothing.");
                     break;
             }
             
