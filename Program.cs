@@ -48,12 +48,21 @@ namespace DiceBot
             var roll2d6Command = new SlashCommandBuilder();
             roll2d6Command.WithName("roll-2d6");
             roll2d6Command.WithDescription("Roll two six sided dice");
+
+            var rolld4Command = new SlashCommandBuilder();
+            rolld4Command.WithName("roll-d4");
+            rolld4Command.WithDescription("Roll a four sided die");
+
+            var roll2d4Command = new SlashCommandBuilder();
+            roll2d4Command.WithName("roll-2d4");
+            roll2d4Command.WithDescription("Roll 2 four sided dice");
             
             try
             {
                 await guild.CreateApplicationCommandAsync(rolld6Command.Build());
                 await guild.CreateApplicationCommandAsync(rolld20Command.Build());
                 await guild.CreateApplicationCommandAsync(roll2d6Command.Build());
+                await guild.CreateApplicationCommandAsync(rolld4Command.Build());
                 
                 // Using the ready event is a simple implementation for the sake of the example. Suitable for testing and development.
                 // For a production bot, it is recommended to only run the CreateGlobalApplicationCommandAsync() once for each command.
@@ -83,6 +92,15 @@ namespace DiceBot
                     int firstDie = rollDie(7);
                     int secondDie = rollDie(7);
                     await command.RespondAsync($"you have rolled a {firstDie} and a {secondDie}");
+                    break;
+                case "roll-d4":
+                    int roll4 = rollDie(5);
+                    await command.RespondAsync($"You have rolled a {roll4}");
+                    break;
+                case "roll-2d4":
+                    int firstRoll4 = rollDie(5);
+                    int secondRoll4 = rollDie(5);
+                    await command.RespondAsync($"You have rolled a {firstRoll4} and a {secondRoll4}");
                     break;
                 default:
                     await command.RespondAsync($"You have run {command.Data.Name}, which does nothing.");
