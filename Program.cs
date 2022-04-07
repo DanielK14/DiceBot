@@ -35,9 +35,6 @@ namespace DiceBot
         }
         public async Task Client_Ready()
         {
-            //guild variable needed to create commands as guildcommands
-            var guild = _client.GetGuild(guildID);
-
             var rolld6Command = new SlashCommandBuilder();
             rolld6Command.WithName("roll-d6");
             rolld6Command.WithDescription("Roll the die");
@@ -61,10 +58,12 @@ namespace DiceBot
             try
             {
                 //Generate the different commands
-                await guild.CreateApplicationCommandAsync(rolld6Command.Build());
-                await guild.CreateApplicationCommandAsync(rolld20Command.Build());
-                await guild.CreateApplicationCommandAsync(roll2d6Command.Build());
-                await guild.CreateApplicationCommandAsync(rolld4Command.Build());
+                await _client.Rest.CreateGuildCommand(rolld6Command.Build(), guildID);
+                await _client.Rest.CreateGuildCommand(rolld20Command.Build(), guildID);
+                await _client.Rest.CreateGuildCommand(roll2d6Command.Build(), guildID);
+                await _client.Rest.CreateGuildCommand(rolld4Command.Build(), guildID);
+                await _client.Rest.CreateGuildCommand(roll2d4Command.Build(), guildID);
+                
             }
             catch (HttpException exception)
             {
